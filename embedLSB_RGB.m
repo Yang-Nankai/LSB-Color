@@ -1,4 +1,32 @@
-function stegoImg = embedLSB_RGB(coverImg, secretImg, key)
+%--------------------------------------------------------------------------
+% FILE:         embedLSB_RGB.m
+% AUTHOR:       [YangXin]
+% DATE:         [2023-05-10]
+% DESCRIPTION:  Embed RGB image through the new RGB-LSB method
+%
+% INPUTS:
+%   coverImg: the input covered image
+%   secretImg: the input secret image
+%   key: the key
+%   a: the arnold paramter
+%   b: the arnold paramter
+%   iterA: the arnold paramter
+%   r: the logistic paramter
+%   x: the logistic paramter
+%   iterB: the logistic paramter
+%
+% OUTPUTS:
+%   stegoImg: the stego image
+%
+% NOTES:        This function is compatible with MATLAB R2013a.
+%--------------------------------------------------------------------------
+function stegoImg = embedLSB_RGB(coverImg, secretImg, key, a, b, iterA, r, x, iterB)
+if nargin < 9, iterB = 50; end
+if nargin < 8, x = 0.75; end
+if nargin < 7, r = 3.769947; end
+if nargin < 6, iterA = 10; end
+if nargin < 5, b = 2; end
+if nargin < 4, a = 1; end
 
 % 获取图像大小及待嵌入图像大小
 [m, n, ~] = size(coverImg);
@@ -8,8 +36,8 @@ coverImg = im2uint8(coverImg);
 secretImg = im2uint8(secretImg);
 
 %对图像进行Arnold置换与Logistic混沌加密
-secretImg = arnold_image(secretImg, 1, 2, 10);
-secretImg = logistic_encrypt(secretImg);
+secretImg = arnold_image(secretImg, a, b, iterA);
+secretImg = logistic_encrypt(secretImg, r, x, iterB);
 
 % 获取随机序列 xkey 和 ykey
 key = int32(key);

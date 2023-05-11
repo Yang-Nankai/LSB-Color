@@ -1,4 +1,33 @@
-function secretImg = extractLSB_RGB(coverImg, h, w, key)
+%--------------------------------------------------------------------------
+% FILE:         extractLSB_RGB.m
+% AUTHOR:       [YangXin]
+% DATE:         [2023-05-10]
+% DESCRIPTION:  Extract RGB image through the new RGB-LSB method
+%
+% INPUTS:
+%   coverImg: the input covered image
+%   h: the secret image height
+%   w: the secret image width
+%   key: the key
+%   a: the arnold paramter
+%   b: the arnold paramter
+%   iterA: the arnold paramter
+%   r: the logistic paramter
+%   x: the logistic paramter
+%   iterB: the logistic paramter
+%
+% OUTPUTS:
+%   secretImg: the secret image
+%
+% NOTES:        This function is compatible with MATLAB R2013a.
+%--------------------------------------------------------------------------
+function secretImg = extractLSB_RGB(coverImg, h, w, key, a, b, iterA, r, x, iterB)
+if nargin < 10, iterB = 50; end
+if nargin < 9, x = 0.75; end
+if nargin < 8, r = 3.769947; end
+if nargin < 7, iterA = 10; end
+if nargin < 6, b = 2; end
+if nargin < 5, a = 1; end
 
 % 获取图像大小及待嵌入图像大小
 [m, n, ~] = size(coverImg);
@@ -56,8 +85,8 @@ img_8 = uint8(wme_1);
 secretImg = bitor(bitor(bitor(bitor(bitor(bitor(bitor(img_1, img_2), img_3), img_4), img_5), img_6), img_7), img_8);
 
 %对图像进行Arnold置换解密与Logistic混沌解密
-secretImg = logistic_decrypt(secretImg);
-secretImg = unarnold_image(secretImg, 1, 2, 10);
+secretImg = logistic_decrypt(secretImg, r, x, iterB);
+secretImg = unarnold_image(secretImg, a, b, iterA);
 
 imwrite(secretImg, './output/decrypt_secret.bmp', 'bmp');
 figure

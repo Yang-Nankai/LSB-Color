@@ -35,12 +35,14 @@ x = imresize(x,[512,512]);
 
 y = imread('./Image/Colour.bmp');
 y = imresize(y,[1024,786]);
+imwrite(y, './output/orignalImg.bmp','bmp')
 
 key = 123456;
-z = embedLSB_RGB(y,x,key);
+key1 = 123457;
+z = embedLSB_RGB(y,x,key,1,2,10,3.769947,0.75,50);
 figure
 imshow(z);
 title('encrypt');
 
-m = extractLSB_RGB(z,512,512,key);
+m = extractLSB_RGB(z,512,512,key,1,2,10,3.769947,0.75,50);
 

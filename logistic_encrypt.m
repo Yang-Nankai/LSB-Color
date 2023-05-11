@@ -16,9 +16,9 @@
 % NOTES:        This function is compatible with MATLAB R2013a.
 %--------------------------------------------------------------------------
 function encryptedImg = logistic_encrypt(originalImg, r, x, iter)
-if nargin < 4, iter = 500; end
-if nargin < 3, x = 0.65; end
-if nargin < 2, r = 3.569946; end
+if nargin < 4, iter = 50; end
+if nargin < 3, x = 0.75; end
+if nargin < 2, r = 3.769947; end
 
 % 获取原始图像的尺寸
 [m, n] = size(originalImg);
